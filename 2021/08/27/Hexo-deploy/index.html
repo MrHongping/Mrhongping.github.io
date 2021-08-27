@@ -6,7 +6,7 @@
     <meta name="referrer" content="origin">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
-    <title>归档</title>
+    <title>Hexo deploy</title>
     <link rel="shortcut icon" href="#"/>
 
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/LongCang.css">
@@ -18,77 +18,118 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Rosario.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/UbuntuMono.css">
 
-    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/archive.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/post.css">
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/normal.css">
+    
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/jquery-3.4.1.min.js"></script>
+
 <meta name="generator" content="Hexo 5.4.0"></head>
 <body>
     <a id="cover"></a>
     <div id="header">
-    <div class="header" >
+    <div class="header">
         <div class="vertical">
             <div class="inner">
-                <h1 class="header-title"></h1>
-                <h2 class="header-description" id="hitokoto"></h2>
-                <h3 class="header-info" id="hitokotoAuthor"></h3>
-                <!--
-                <h1 class="header-subtitle"></h1>
-                <p class="header-subinfo"></p>
-                -->
+                <h1 class="header-subtitle">Hexo deploy</h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2021-08-27
+                        </span>
+                        
+                            <span id="/2021/08/27/Hexo-deploy/" class="leancloud_visitors" data-flag-title="Hexo deploy">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/08/27/Hexo-deploy/"></span>
+                        </span>  
+                    </p>                 
+                </div>
             </div>
         </div>
-        <a class="scroll-down" href="javascript:;" target="_self" data-offset="-45">
-            <span class="hidden">Scroll Down</span>
-            <i class="scroll-down-icon iconfont icon-return"></i>
-        </a>
+        <canvas id="articleHeaderCanvas"></canvas>
     </div>
 </div>
     <div id="container">
     <div id="content">
-        
-    <div class="articles">
-        
-        
-            
-                
-                    
-                    <div class="archives-wrap">      
-                        <div class="archive-year-wrap">
-                            <a href="/archive/2021" class="archive-year">
-                                2021
-                            </a>
-                        </div>
-                        <div class="archives">
-            
-                            <div class="archive">
-                                <div class="article">
-                                    <a href="javascript:;">
-                                        <span>08/27</span>
-                                    </a>
-                                    <h2>
-                                        <a class="article-title" href="/2021/08/27/Hexo-deploy/">Hexo deploy</a> 
-                                    </h2>
-                                </div>
-                            </div>     
-        
-            
-                            <div class="archive">
-                                <div class="article">
-                                    <a href="javascript:;">
-                                        <span>08/26</span>
-                                    </a>
-                                    <h2>
-                                        <a class="article-title" href="/2021/08/26/hello-world/">Hello World</a> 
-                                    </h2>
-                                </div>
-                            </div>     
-        
-        
-            </div>
-        </div>
-        
-    </div>   
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
+        <h2 id="Hexo部署教程"><a href="#Hexo部署教程" class="headerlink" title="Hexo部署教程"></a>Hexo部署教程</h2><h4 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h4><ul>
+<li><p>获得个人网站域名</p>
+</li>
+<li><p>GitHub创建个人仓库</p>
+</li>
+<li><p>安装Git</p>
+</li>
+<li><p>安装Node.js</p>
+</li>
+<li><p>安装Hexo</p>
+</li>
+<li><p>绑定网站</p>
+</li>
+<li><p>更换主题</p>
+</li>
+<li><p>发布文章</p>
+</li>
+<li><p>个性化设置</p>
+</li>
+<li><p><input disabled="" type="checkbox">  Hexo</p>
+</li>
+<li><p><input disabled="" type="checkbox">  Node.js</p>
+</li>
+<li><p><input disabled="" type="checkbox">  Git</p>
+</li>
+<li><p><input disabled="" type="checkbox">  打豆豆（为什么要打豆豆🤪）</p>
+</li>
+</ul>
+<blockquote>
+<p>Hexo是一款基于Node.js的静态博客框架，依赖少易于安装使用，可以方便的生成静态网页托管在GitHub和Heroku上，是搭建博客的首选框架。这里我们选用的是GitHub，你没看错，全球最大的同性恋交友网站（逃……）。Hexo同时也是GitHub上的开源项目，参见：<a href="https://link.zhihu.com/?target=https://github.com/hexojs/hexo">hexojs/hexo</a> 如果想要更加全面的了解Hexo，可以到其官网 <a href="https://link.zhihu.com/?target=https://hexo.io/">Hexo</a> 了解更多的细节，因为Hexo的创建者是台湾人，对中文的支持很友好，可以选择中文进行查看。这里，默认各位猿/媛儿都知道GitHub就不再赘述。</p>
+</blockquote>
 
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/sidebar/avatar.jpg" alt="Live For Code">
+            </div>
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：Live For Code
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2021/08/27/Hexo-deploy/" target="_blank">Hexo deploy</a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：简单地活着, 肆意又精彩.
+                <br>
+                <span class="suffix-box-title">关于主题</span>：<a href="https://github.com/first19326/Hexo-LiveForCode" target="_blank">Hexo - Live For Code</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    <div class="article-footer">
+        
+        
+        <div class="article-prev-next">
+            
+            
+                <a href="/2021/08/26/hello-world/" class="next-prefix">» </a> 下一篇：    <a href="/2021/08/26/hello-world/" title="发布于 2021-08-26 06:58">Hello World</a>
+            
+        </div>
+    </div>
+    
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
+        </div>
+        <div class="comments-content">
+        </div>
+    </div>
+
+</div>
 
     </div>
 </div>
