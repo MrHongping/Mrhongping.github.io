@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"idevv.us.kg","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="tcpdump实用技巧与案例解析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tcpdump抓包工具常用命令">
+<meta property="og:url" content="https://idevv.us.kg/2025/01/10/tcpdump%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="iDevv">
+<meta property="og:description" content="tcpdump实用技巧与案例解析">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.idevv.us.kg/app/hide.php?key=eEF2WFlYSHNrYkV0aWRlMkU3QWJ5YW53bEltbkoxL0JRRHVK">
+<meta property="article:published_time" content="2025-01-10T01:24:48.000Z">
+<meta property="article:modified_time" content="2025-01-10T01:52:52.734Z">
+<meta property="article:author" content="Ray">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.idevv.us.kg/app/hide.php?key=eEF2WFlYSHNrYkV0aWRlMkU3QWJ5YW53bEltbkoxL0JRRHVK">
+
+<link rel="canonical" href="https://idevv.us.kg/2025/01/10/tcpdump%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>tcpdump抓包工具常用命令 | iDevv</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="iDevv" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">iDevv</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Dev Life</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://idevv.us.kg/2025/01/10/tcpdump%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/logo.webp">
+      <meta itemprop="name" content="Ray">
+      <meta itemprop="description" content="Dev Life">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="iDevv">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          tcpdump抓包工具常用命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-01-10 09:24:48 / 修改时间：09:52:52" itemprop="dateCreated datePublished" datetime="2025-01-10T09:24:48+08:00">2025-01-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+            <div class="post-description">tcpdump实用技巧与案例解析</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://images.idevv.us.kg/app/hide.php?key=eEF2WFlYSHNrYkV0aWRlMkU3QWJ5YW53bEltbkoxL0JRRHVK" alt="hide"></p>
+<ul>
+<li>整理了一些<code>tcpdump</code>使用示例，留做备份记录,<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/YYIiXIgkdbp4bEHcs7Nk2w">内容来源</a></li>
+<li><span id="more"></span></li>
+</ul>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h3><p>下面的命令是使用<code>tcpdump</code>时常见的参数。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 -nn -s0 -v port 80</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>-i</strong>: 指定需要进行抓包的接口，一般是以太网卡或者无线网卡，也可以指定其他的虚拟接口，比如docker网桥<br>如果只有一个网络适配器，则可以不用指定也行。</li>
+<li><strong>-nn</strong>: 单个n不会解析主机名，两个nn不会解析主机名或端口。<br>这不仅对于查看 IP&#x2F;端口号很方便，而且在抓包大量数据时也很方便，因为名称解析会减慢抓包速度。</li>
+<li><strong>-s0</strong>: 抓包大小，-s0将大小设置为无限制。<br>如果您想抓包所有流量，或者从网络流量中提取二进制文件&#x2F;文件，则需要此选项。</li>
+<li><strong>-v</strong>: 详细，使用 (-v) 或 (-vv) 会增加输出中显示更详细信息，通常会显示更多协议特定的信息。</li>
+<li><strong>port 80</strong>: 端口过滤器，这里设置的是抓包端口 80 上的流量。</li>
+</ul>
+<h3 id="显示ASCII文本"><a href="#显示ASCII文本" class="headerlink" title="显示ASCII文本"></a>显示ASCII文本</h3><p><code>-A</code>参数使得输出中包含抓包的<code>ascii</code>字符串。这样便于结合<code>grep</code>或其他命令解析输出。另一个可以同时显示十六进制输出和<code>ascii</code>的参数是<code>-X</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -A -s0 port 80</span><br></pre></td></tr></table></figure>
+<p>根据协议抓包<br>比如，过滤<code>UDP</code>流量，可以指定<code>udp</code>，也可以指定使用协议<code>17</code>，这两个命令效果一样。<br><code>TCP</code>对应的协议是<code>6</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 udp</span><br><span class="line">tcpdump -i eth0 proto 17</span><br></pre></td></tr></table></figure>
+<p>根据IP抓包<br>使用<code>host</code>过滤器将同时抓包前往（目标）和来自（源）IP 地址的流量。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 host 10.10.1.1</span><br></pre></td></tr></table></figure>
+<p>或者使用<code>src</code>或者<code>dst</code>来指定仅抓包单向的流量。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 src 10.10.1.20</span><br><span class="line">tcpdump -i eth0 dst 10.10.1.20</span><br></pre></td></tr></table></figure>
+<p>抓包内容写入文件<br>将抓包文件写入磁盘，保存的文件后续可以使用其它工具进行分析，比如Wireshark。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 -s0 -v test.pcap</span><br></pre></td></tr></table></figure>
+<p>行缓冲模式<br>指定缓冲模式，比如行缓冲（<code>-l</code>）或数据包缓冲（<code>-C</code>），可以让<code>tcpdump</code>的输出立即发送到管道命令，在故障排除时立即做出响应。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 -s0 -l port 80 | grep &#x27;Server:&#x27;</span><br></pre></td></tr></table></figure>
+<p>不指定缓冲模式，有可能会得不到预期的结果。<br>组合过滤器<br>在上面的示例中，可以使用使用下面的<code>逻辑符号</code>来组合不同的过滤器。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">and or &amp;&amp;</span><br><span class="line">or or ||</span><br><span class="line">not or !</span><br></pre></td></tr></table></figure>
+<h1 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h1><p><code>Tcpdump</code>命令参数很多，常常有多种方法可以实现同样的结果。<br>使用哪种方法取决于所需的输出以及线路上的流量。比如，在繁忙的千兆位链路上进行抓包可能会迫使您使用特定的低级数据包过滤器。</p>
+<p>下面的示例中，将列举一些以最简单（因此最快）的方式获得结果的方法。</p>
+<h2 id="提取-HTTP-用户代理"><a href="#提取-HTTP-用户代理" class="headerlink" title="提取 HTTP 用户代理"></a>提取 HTTP 用户代理</h2><p>从 HTTP 请求标头中提取 HTTP 用户代理。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -nn -A -s1500 -l | grep &quot;User-Agent:&quot;</span><br></pre></td></tr></table></figure>
+
+<p>通过使用 <code>egrep</code> 和多个匹配规则，可以从请求中获取用户代理和主机（或任何其他标头）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -nn -A -s1500 -l | egrep -i &#x27;User-Agent:|Host:&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="仅捕获-HTTP-GET-和-POST-数据包"><a href="#仅捕获-HTTP-GET-和-POST-数据包" class="headerlink" title="仅捕获 HTTP GET 和 POST 数据包"></a>仅捕获 HTTP GET 和 POST 数据包</h2><p>仅指定与 <code>GET</code> 匹配的数据包。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -s 0 -A -vv &#x27;tcp[((tcp[12:1] &amp; 0xf0) &gt;&gt; 2):4] = 0x47455420&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>只选择 <code>POST</code> 请求。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -s 0 -A -vv &#x27;tcp[((tcp[12:1] &amp; 0xf0) &gt;&gt; 2):4] = 0x504f5354&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>，使用此过滤器抓包的数据中可能不包含 <strong>POST 数据</strong>，因为<code>POST</code> 请求很可能会被拆分为多个 <code>TCP</code> 数据包。</p>
+<p>上面的表达式中的十六进制是与 <code>GET</code> 和 <code>POST</code> 请求中的 <code>ascii</code> 对应的。</p>
+<h2 id="提取-HTTP-请求的-URL"><a href="#提取-HTTP-请求的-URL" class="headerlink" title="提取 HTTP 请求的 URL"></a>提取 HTTP 请求的 URL</h2><p>从流量中解析主机和 <code>HTTP</code> 请求位置。<br>如果服务不在<strong>80 端口</strong>，则需要指定端口。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -s 0 -v -n -l | egrep -i &quot;POST /|GET /|Host:&quot;</span><br><span class="line"></span><br><span class="line">tcpdump: listening on enp7s0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">	POST /wp-login.php HTTP/1.1</span><br><span class="line">	Host: dev.example.com</span><br><span class="line">	GET /wp-login.php HTTP/1.1</span><br><span class="line">	Host: dev.example.com</span><br><span class="line">	GET /favicon.ico HTTP/1.1</span><br><span class="line">	Host: dev.example.com</span><br><span class="line">	GET / HTTP/1.1</span><br><span class="line">	Host: dev.example.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="在-POST-请求中提取-HTTP-密码"><a href="#在-POST-请求中提取-HTTP-密码" class="headerlink" title="在 POST 请求中提取 HTTP 密码"></a>在 POST 请求中提取 HTTP 密码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -s 0 -A -n -l | egrep -i &quot;POST /|pwd=|passwd=|password=|Host:&quot;</span><br><span class="line"></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on enp7s0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">11:25:54.799014 IP 10.10.1.30.39224 &gt; 10.10.1.125.80: Flags [P.], seq 1458768667:1458770008, ack 2440130792, win 704, options [nop,nop,TS val 461552632 ecr 208900561], length 1341: HTTP: POST /wp-login.php HTTP/1.1</span><br><span class="line">.....s..POST /wp-login.php HTTP/1.1</span><br><span class="line">Host: dev.example.com</span><br><span class="line">.....s..log=admin&amp;pwd=notmypassword&amp;wp-submit=Log+In&amp;redirect_to=http%3A%2F%2Fdev.example.com%2Fwp-admin%2F&amp;testcookie=1</span><br></pre></td></tr></table></figure>
+
+<h2 id="从服务器和客户端抓包-Cookie"><a href="#从服务器和客户端抓包-Cookie" class="headerlink" title="从服务器和客户端抓包 Cookie"></a>从服务器和客户端抓包 Cookie</h2><p>通过搜索 <code>Set-Cookie</code>（来自服务器）和 <code>Cookie</code>（来自客户端）来抓包 <code>cookie</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -nn -A -s0 -l | egrep -i &#x27;Set-Cookie|Host:|Cookie:&#x27;</span><br><span class="line"></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on wlp58s0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">Host: dev.example.com</span><br><span class="line">Cookie: wordpress_86be02xxxxxxxxxxxxxxxxxxxc43=admin%7C152xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfb3e15c744fdd6; _ga=GA1.2.21343434343421934; _gid=GA1.2.927343434349426; wordpress_test_cookie=WP+Cookie+check; wordpress_logged_in_86be654654645645645654645653fc43=admin%7C15275102testtesttesttestab7a61e; wp-settings-time-1=1527337439</span><br></pre></td></tr></table></figure>
+
+<h2 id="抓包所有-ICMP-数据包"><a href="#抓包所有-ICMP-数据包" class="headerlink" title="抓包所有 ICMP 数据包"></a>抓包所有 ICMP 数据包</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -n icmp</span><br><span class="line"></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on enp7s0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">11:34:21.590380 IP 10.10.1.217 &gt; 10.10.1.30: ICMP echo request, id 27948, seq 1, length 64</span><br><span class="line">11:34:21.590434 IP 10.10.1.30 &gt; 10.10.1.217: ICMP echo reply, id 27948, seq 1, length 64</span><br><span class="line">11:34:27.680307 IP 10.10.1.159 &gt; 10.10.1.1: ICMP 10.10.1.189 udp port 59619 unreachable, length 115</span><br></pre></td></tr></table></figure>
+
+<h2 id="非-ECHO-REPLY-的-ICMP-数据包"><a href="#非-ECHO-REPLY-的-ICMP-数据包" class="headerlink" title="非 ECHO&#x2F;REPLY 的 ICMP 数据包"></a>非 ECHO&#x2F;REPLY 的 ICMP 数据包</h2><p>对 <code>icmp</code> 类型进行过滤，以选择非标准 <code>ping</code> 包的 <code>icmp</code> 包。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump &#x27;icmp[icmptype] != icmp-echo and icmp[icmptype] != icmp-echoreply&#x27;</span><br><span class="line"></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on enp7s0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">11:37:04.041037 IP 10.10.1.189 &gt; 10.10.1.20: ICMP 10.10.1.189 udp port 36078 unreachable, length 156</span><br></pre></td></tr></table></figure>
+
+<h2 id="抓包-SMTP-POP3-电子邮件"><a href="#抓包-SMTP-POP3-电子邮件" class="headerlink" title="抓包 SMTP&#x2F;POP3 电子邮件"></a>抓包 SMTP&#x2F;POP3 电子邮件</h2><p>可以提取电子邮件<strong>正文</strong>和<strong>其他数据</strong>，下面的例子中仅解析电子邮件<strong>收件人</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -nn -l port 25 | grep -i &#x27;MAIL FROM\|RCPT TO&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="NTP-的查询和响应的故障排除"><a href="#NTP-的查询和响应的故障排除" class="headerlink" title="NTP 的查询和响应的故障排除"></a>NTP 的查询和响应的故障排除</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump dst port 123</span><br><span class="line"></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on eth0, link-type EN10MB (Ethernet), capture size 65535 bytes</span><br><span class="line">21:02:19.112502 IP test33.ntp &gt; 199.30.140.74.ntp: NTPv4, Client, length 48</span><br><span class="line">21:02:19.113888 IP 216.239.35.0.ntp &gt; test33.ntp: NTPv4, Server, length 48</span><br><span class="line">21:02:20.150347 IP test33.ntp &gt; 216.239.35.0.ntp: NTPv4, Client, length 48</span><br><span class="line">21:02:20.150991 IP 216.239.35.0.ntp &gt; test33.ntp: NTPv4, Server, length 48</span><br></pre></td></tr></table></figure>
+
+<h2 id="抓包-SNMP-的查询和响应"><a href="#抓包-SNMP-的查询和响应" class="headerlink" title="抓包 SNMP 的查询和响应"></a>抓包 SNMP 的查询和响应</h2><p>使用 <code>onesixtyone</code> 快速 <code>SNMP</code> 协议扫描器，然后在本地网络上测试 <code>SNMP</code> 服务并捕获 <code>GetRequest</code> 和 <code>GetResponse</code> 。</p>
+<p>模拟<code>SNMP</code>扫描：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ onesixtyone 10.10.1.10 public</span><br><span class="line"></span><br><span class="line">Scanning 1 hosts, 1 communities</span><br><span class="line">10.10.1.10 [public] Linux test33 4.15.0-20-generic #21-Ubuntu SMP Tue Apr 24 06:16:15 UTC 2018 x86_64</span><br></pre></td></tr></table></figure>
+
+<p>抓包<code>SNMP</code>查询和扫描：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -n -s0  port 161 and udp</span><br><span class="line"></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on wlp58s0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">23:39:13.725522 IP 10.10.1.159.36826 &gt; 10.10.1.20.161:  GetRequest(28)  .1.3.6.1.2.1.1.1.0</span><br><span class="line">23:39:13.728789 IP 10.10.1.20.161 &gt; 10.10.1.159.36826:  GetResponse(109)  .1.3.6.1.2.1.1.1.0=&quot;Linux testmachine 4.15.0-20-generic #21-Ubuntu SMP Tue Apr 24 06:16:15 UTC 2018 x86_64&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="抓包-FTP-的凭证和命令"><a href="#抓包-FTP-的凭证和命令" class="headerlink" title="抓包 FTP 的凭证和命令"></a>抓包 FTP 的凭证和命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -nn -v port ftp or ftp-data</span><br></pre></td></tr></table></figure>
+
+<h2 id="滚动抓包文件"><a href="#滚动抓包文件" class="headerlink" title="滚动抓包文件"></a>滚动抓包文件</h2><p>针对大流量或长时间抓包时，自动创建固定大小的新文件会很有帮助，一般使用参数 <code>-W</code>、 <code>-G</code>和 <code>-C</code> 来完成。</p>
+<p>下面的示例中，文件 <code>capture-(hour).pcap</code> 将每 (-G) <code>3600</code> 秒（1 小时）创建一次，这些文件将在第二天被覆盖。<br>因此，最终应该得到 <code>capture-&#123;1-24&#125;.pcap</code>，如果小时为 <code>15</code>，则新文件为 (<code>/tmp/capture-15.pcap</code>)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tcpdump  -w /tmp/capture-%H.pcap -G 3600 -C 200</span><br></pre></td></tr></table></figure>
+
+<h2 id="抓包-IPv6-流量"><a href="#抓包-IPv6-流量" class="headerlink" title="抓包 IPv6 流量"></a>抓包 IPv6 流量</h2><p>使用 <code>ip6</code> 过滤器捕获 <code>IPv6</code> 流量。<br>可以使用 <code>proto 6</code> 或 <code>proto 17</code> 指定了 <code>TCP</code>或<code>UDP</code> 协议。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -nn ip6 proto 6</span><br></pre></td></tr></table></figure>
+
+<p>从先前保存的抓包文件中读取<code>UDP</code> 的 <code>IPv6</code> 流量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -nr ipv6-test.pcap ip6 proto 17</span><br></pre></td></tr></table></figure>
+
+<h2 id="检测网络流量中的端口扫描"><a href="#检测网络流量中的端口扫描" class="headerlink" title="检测网络流量中的端口扫描"></a>检测网络流量中的端口扫描</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ tcpdump -nn</span><br><span class="line"></span><br><span class="line">21:46:19.693601 IP 10.10.1.10.60460 &gt; 10.10.1.199.5432: Flags [S], seq 116466344, win 29200, options [mss 1460,sackOK,TS val 3547090332 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.693626 IP 10.10.1.10.35470 &gt; 10.10.1.199.513: Flags [S], seq 3400074709, win 29200, options [mss 1460,sackOK,TS val 3547090332 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.693762 IP 10.10.1.10.44244 &gt; 10.10.1.199.389: Flags [S], seq 2214070267, win 29200, options [mss 1460,sackOK,TS val 3547090333 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.693772 IP 10.10.1.199.389 &gt; 10.10.1.10.44244: Flags [R.], seq 0, ack 2214070268, win 0, length 0</span><br><span class="line">21:46:19.693783 IP 10.10.1.10.35172 &gt; 10.10.1.199.1433: Flags [S], seq 2358257571, win 29200, options [mss 1460,sackOK,TS val 3547090333 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.693826 IP 10.10.1.10.33022 &gt; 10.10.1.199.49153: Flags [S], seq 2406028551, win 29200, options [mss 1460,sackOK,TS val 3547090333 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.695567 IP 10.10.1.10.55130 &gt; 10.10.1.199.49154: Flags [S], seq 3230403372, win 29200, options [mss 1460,sackOK,TS val 3547090334 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.695590 IP 10.10.1.199.49154 &gt; 10.10.1.10.55130: Flags [R.], seq 0, ack 3230403373, win 0, length 0</span><br><span class="line">21:46:19.695608 IP 10.10.1.10.33460 &gt; 10.10.1.199.49152: Flags [S], seq 3289070068, win 29200, options [mss 1460,sackOK,TS val 3547090335 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.695622 IP 10.10.1.199.49152 &gt; 10.10.1.10.33460: Flags [R.], seq 0, ack 3289070069, win 0, length 0</span><br><span class="line">21:46:19.695637 IP 10.10.1.10.34940 &gt; 10.10.1.199.1029: Flags [S], seq 140319147, win 29200, options [mss 1460,sackOK,TS val 3547090335 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.695650 IP 10.10.1.199.1029 &gt; 10.10.1.10.34940: Flags [R.], seq 0, ack 140319148, win 0, length 0</span><br><span class="line">21:46:19.695664 IP 10.10.1.10.45648 &gt; 10.10.1.199.5060: Flags [S], seq 2203629201, win 29200, options [mss 1460,sackOK,TS val 3547090335 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.695775 IP 10.10.1.10.49028 &gt; 10.10.1.199.2000: Flags [S], seq 635990431, win 29200, options [mss 1460,sackOK,TS val 3547090335 ecr 0,nop,wscale 7], length 0</span><br><span class="line">21:46:19.695790 IP 10.10.1.199.2000 &gt; 10.10.1.10.49028: Flags [R.], seq 0, ack 635990432, win 0, length 0</span><br></pre></td></tr></table></figure>
+
+<h2 id="显示-Nmap-NSE-脚本测试的示例过滤器"><a href="#显示-Nmap-NSE-脚本测试的示例过滤器" class="headerlink" title="显示 Nmap NSE 脚本测试的示例过滤器"></a>显示 Nmap NSE 脚本测试的示例过滤器</h2><p>在 <code>Nmap</code> 机器上模拟<code>NSE</code>脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nmap -p 80 --script=http-enum.nse targetip</span><br></pre></td></tr></table></figure>
+
+<p>在目标机器上抓包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ tcpdump -nn port 80 | grep &quot;GET /&quot;</span><br><span class="line"></span><br><span class="line">GET /w3perl/ HTTP/1.1</span><br><span class="line">GET /w-agora/ HTTP/1.1</span><br><span class="line">GET /way-board/ HTTP/1.1</span><br><span class="line">GET /web800fo/ HTTP/1.1</span><br><span class="line">GET /webaccess/ HTTP/1.1</span><br><span class="line">GET /webadmin/ HTTP/1.1</span><br><span class="line">GET /webAdmin/ HTTP/1.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="抓包非本地主机上的开始和结束的数据包"><a href="#抓包非本地主机上的开始和结束的数据包" class="headerlink" title="抓包非本地主机上的开始和结束的数据包"></a>抓包非本地主机上的开始和结束的数据包</h2><p>通过选择 <code>tcp-syn</code> 和 <code>tcp-fin</code> 数据包，可以显示每个已建立的 TCP 会话，其中包含时间戳，但不包含数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tcpdump &#x27;tcp[tcpflags] &amp; (tcp-syn|tcp-fin) != 0 and not src and dst net localnet&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="抓包-DNS-请求和响应"><a href="#抓包-DNS-请求和响应" class="headerlink" title="抓包 DNS 请求和响应"></a>抓包 DNS 请求和响应</h2><p>比如下面的示例中可以看到对 <code>Google</code> 公共 <code>DNS</code> 的出站 <code>DNS</code> 请求和 <strong>A 记录</strong>（IP 地址）响应。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -i wlp58s0 -s0 port 53</span><br><span class="line"></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on wlp58s0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">14:19:06.879799 IP test.53852 &gt; google-public-dns-a.google.com.domain: 26977+ [1au] A? play.google.com. (44)</span><br><span class="line">14:19:07.022618 IP google-public-dns-a.google.com.domain &gt; test.53852: 26977 1/0/1 A 216.58.203.110 (60)</span><br></pre></td></tr></table></figure>
+
+<h2 id="抓包-HTTP-数据包"><a href="#抓包-HTTP-数据包" class="headerlink" title="抓包 HTTP 数据包"></a>抓包 HTTP 数据包</h2><p>仅抓包<strong>端口 80</strong> 上的 HTTP 流量，避免抓包 <code>TCP</code> 会话 (<code>SYN / FIN / ACK</code>)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tcpdump &#x27;tcp port 80 and (((ip[2:2] - ((ip[0]&amp;0xf)&lt;&lt;2)) - ((tcp[12]&amp;0xf0)&gt;&gt;2)) != 0)&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="在-tcpdump-中抓包，在-Wireshark-中查看"><a href="#在-tcpdump-中抓包，在-Wireshark-中查看" class="headerlink" title="在 tcpdump 中抓包，在 Wireshark 中查看"></a>在 tcpdump 中抓包，在 Wireshark 中查看</h2><p>一般方法是通过<code>tcpdump</code>抓包之后保存成文件，再将文件拷贝到<code>Wireshark</code>中查看。<br>不过，除此之外，还可以通过 <code>SSH</code> 连接将抓包的内容实时提供给 <code>Wireshark</code>。<br>不要忘记 <code>not port 22</code> ，加上这个就不会捕获 <code>SSH</code> 流量了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh root@remotesystem &#x27;tcpdump -s0 -c 1000 -nn -w - not port 22&#x27; | wireshark -k -i -</span><br></pre></td></tr></table></figure>
+
+<h2 id="按数据包数量排名主机"><a href="#按数据包数量排名主机" class="headerlink" title="按数据包数量排名主机"></a>按数据包数量排名主机</h2><p>列出一段时间内或数据包数量最多的通话者。<br>使用简单的命令行字段提取来获取 <strong>IP 地址</strong>，对出现的次数进行排序和计数。<br>用于排序和计数的流量与计数参数 <code>-c</code>相关。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -nnn -t -c 200 | cut -f 1,2,3,4 -d &#x27;.&#x27; | sort | uniq -c | sort -nr | head -n 20</span><br><span class="line"></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on enp7s0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">200 packets captured</span><br><span class="line">261 packets received by filter</span><br><span class="line">0 packets dropped by kernel</span><br><span class="line">    108 IP 10.10.211.181</span><br><span class="line">     91 IP 10.10.1.30</span><br><span class="line">      1 IP 10.10.1.50</span><br></pre></td></tr></table></figure>
+
+<h2 id="抓包-所有明文密码"><a href="#抓包-所有明文密码" class="headerlink" title="抓包 所有明文密码"></a>抓包 所有明文密码</h2><p>下面的示例中，重点关注标准纯文本协议，并选择 <code>grep</code> 处理任何与用户或密码相关的内容。<br>通过 <code>grep</code> 的 <code>-B5</code> 选项，只获取前 5 行（可以提供有关的密码的上下文、主机名、IP 地址、系统）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump port http or port ftp or port smtp or port imap or port pop3 or port telnet -l -A | egrep -i -B5 &#x27;pass=|pwd=|log=|login=|user=|username=|pw=|passw=|passwd=|password=|pass:|user:|username:|password:|login:|pass |user &#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="DHCP-示例"><a href="#DHCP-示例" class="headerlink" title="DHCP 示例"></a>DHCP 示例</h2><p>监视 <code>DHCP</code> 请求和回复， <code>DHCP</code> 请求在端口 <code>67</code> 上显示，回复在端口 <code>68</code> 上显示。<br>使用参数 -v 可以查看协议选项和其他详细信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tcpdump -v -n port 67 or 68</span><br><span class="line"></span><br><span class="line">tcpdump: listening on enp7s0, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">14:37:50.059662 IP (tos 0x10, ttl 128, id 0, offset 0, flags [none], proto UDP (17), length 328)</span><br><span class="line">    0.0.0.0.68 &gt; 255.255.255.255.67: BOOTP/DHCP, Request from 00:0c:xx:xx:xx:d5, length 300, xid 0xc9779c2a, Flags [none]</span><br><span class="line">	  Client-Ethernet-Address 00:0c:xx:xx:xx:d5</span><br><span class="line">	  Vendor-rfc1048 Extensions</span><br><span class="line">	    Magic Cookie 0x63825363</span><br><span class="line">	    DHCP-Message Option 53, length 1: Request</span><br><span class="line">	    Requested-IP Option 50, length 4: 10.10.1.163</span><br><span class="line">	    Hostname Option 12, length 14: &quot;test-ubuntu&quot;</span><br><span class="line">	    Parameter-Request Option 55, length 16:</span><br><span class="line">	      Subnet-Mask, BR, Time-Zone, Default-Gateway</span><br><span class="line">	      Domain-Name, Domain-Name-Server, Option 119, Hostname</span><br><span class="line">	      Netbios-Name-Server, Netbios-Scope, MTU, Classless-Static-Route</span><br><span class="line">	      NTP, Classless-Static-Route-Microsoft, Static-Route, Option 252</span><br><span class="line">14:37:50.059667 IP (tos 0x10, ttl 128, id 0, offset 0, flags [none], proto UDP (17), length 328)</span><br><span class="line">    0.0.0.0.68 &gt; 255.255.255.255.67: BOOTP/DHCP, Request from 00:0c:xx:xx:xx:d5, length 300, xid 0xc9779c2a, Flags [none]</span><br><span class="line">	  Client-Ethernet-Address 00:0c:xx:xx:xx:d5</span><br><span class="line">	  Vendor-rfc1048 Extensions</span><br><span class="line">	    Magic Cookie 0x63825363</span><br><span class="line">	    DHCP-Message Option 53, length 1: Request</span><br><span class="line">	    Requested-IP Option 50, length 4: 10.10.1.163</span><br><span class="line">	    Hostname Option 12, length 14: &quot;test-ubuntu&quot;</span><br><span class="line">	    Parameter-Request Option 55, length 16:</span><br><span class="line">	      Subnet-Mask, BR, Time-Zone, Default-Gateway</span><br><span class="line">	      Domain-Name, Domain-Name-Server, Option 119, Hostname</span><br><span class="line">	      Netbios-Name-Server, Netbios-Scope, MTU, Classless-Static-Route</span><br><span class="line">	      NTP, Classless-Static-Route-Microsoft, Static-Route, Option 252</span><br><span class="line">14:37:50.060780 IP (tos 0x0, ttl 64, id 53564, offset 0, flags [none], proto UDP (17), length 339)</span><br><span class="line">    10.10.1.1.67 &gt; 10.10.1.163.68: BOOTP/DHCP, Reply, length 311, xid 0xc9779c2a, Flags [none]</span><br><span class="line">	  Your-IP 10.10.1.163</span><br><span class="line">	  Server-IP 10.10.1.1</span><br><span class="line">	  Client-Ethernet-Address 00:0c:xx:xx:xx:d5</span><br><span class="line">	  Vendor-rfc1048 Extensions</span><br><span class="line">	    Magic Cookie 0x63825363</span><br><span class="line">	    DHCP-Message Option 53, length 1: ACK</span><br><span class="line">	    Server-ID Option 54, length 4: 10.10.1.1</span><br><span class="line">	    Lease-Time Option 51, length 4: 86400</span><br><span class="line">	    RN Option 58, length 4: 43200</span><br><span class="line">	    RB Option 59, length 4: 75600</span><br><span class="line">	    Subnet-Mask Option 1, length 4: 255.255.255.0</span><br><span class="line">	    BR Option 28, length 4: 10.10.1.255</span><br><span class="line">	    Domain-Name-Server Option 6, length 4: 10.10.1.1</span><br><span class="line">	    Hostname Option 12, length 14: &quot;test-ubuntu&quot;</span><br><span class="line">	    T252 Option 252, length 1: 10	    Default-Gatewa</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+    <div>
+      
+        <div> 
+     
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div> 
+     
+</div>
+
+      
+    </div>
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/01/09/hexo%E5%A2%9E%E5%8A%A0utteranc%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/" rel="prev" title="hexo增加utterances评论系统">
+      <i class="fa fa-chevron-left"></i> hexo增加utterances评论系统
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="utterances-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">常用参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BAASCII%E6%96%87%E6%9C%AC"><span class="nav-number">1.2.</span> <span class="nav-text">显示ASCII文本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number"></span> <span class="nav-text">使用示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8F%96-HTTP-%E7%94%A8%E6%88%B7%E4%BB%A3%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">提取 HTTP 用户代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%85%E6%8D%95%E8%8E%B7-HTTP-GET-%E5%92%8C-POST-%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">仅捕获 HTTP GET 和 POST 数据包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8F%96-HTTP-%E8%AF%B7%E6%B1%82%E7%9A%84-URL"><span class="nav-number">3.</span> <span class="nav-text">提取 HTTP 请求的 URL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-POST-%E8%AF%B7%E6%B1%82%E4%B8%AD%E6%8F%90%E5%8F%96-HTTP-%E5%AF%86%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">在 POST 请求中提取 HTTP 密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8A%93%E5%8C%85-Cookie"><span class="nav-number">5.</span> <span class="nav-text">从服务器和客户端抓包 Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85%E6%89%80%E6%9C%89-ICMP-%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="nav-number">6.</span> <span class="nav-text">抓包所有 ICMP 数据包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E-ECHO-REPLY-%E7%9A%84-ICMP-%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="nav-number">7.</span> <span class="nav-text">非 ECHO&#x2F;REPLY 的 ICMP 数据包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85-SMTP-POP3-%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6"><span class="nav-number">8.</span> <span class="nav-text">抓包 SMTP&#x2F;POP3 电子邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NTP-%E7%9A%84%E6%9F%A5%E8%AF%A2%E5%92%8C%E5%93%8D%E5%BA%94%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4"><span class="nav-number">9.</span> <span class="nav-text">NTP 的查询和响应的故障排除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85-SNMP-%E7%9A%84%E6%9F%A5%E8%AF%A2%E5%92%8C%E5%93%8D%E5%BA%94"><span class="nav-number">10.</span> <span class="nav-text">抓包 SNMP 的查询和响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85-FTP-%E7%9A%84%E5%87%AD%E8%AF%81%E5%92%8C%E5%91%BD%E4%BB%A4"><span class="nav-number">11.</span> <span class="nav-text">抓包 FTP 的凭证和命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BB%9A%E5%8A%A8%E6%8A%93%E5%8C%85%E6%96%87%E4%BB%B6"><span class="nav-number">12.</span> <span class="nav-text">滚动抓包文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85-IPv6-%E6%B5%81%E9%87%8F"><span class="nav-number">13.</span> <span class="nav-text">抓包 IPv6 流量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%B5%8B%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E4%B8%AD%E7%9A%84%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">14.</span> <span class="nav-text">检测网络流量中的端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA-Nmap-NSE-%E8%84%9A%E6%9C%AC%E6%B5%8B%E8%AF%95%E7%9A%84%E7%A4%BA%E4%BE%8B%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">15.</span> <span class="nav-text">显示 Nmap NSE 脚本测试的示例过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85%E9%9D%9E%E6%9C%AC%E5%9C%B0%E4%B8%BB%E6%9C%BA%E4%B8%8A%E7%9A%84%E5%BC%80%E5%A7%8B%E5%92%8C%E7%BB%93%E6%9D%9F%E7%9A%84%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="nav-number">16.</span> <span class="nav-text">抓包非本地主机上的开始和结束的数据包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85-DNS-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94"><span class="nav-number">17.</span> <span class="nav-text">抓包 DNS 请求和响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85-HTTP-%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="nav-number">18.</span> <span class="nav-text">抓包 HTTP 数据包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-tcpdump-%E4%B8%AD%E6%8A%93%E5%8C%85%EF%BC%8C%E5%9C%A8-Wireshark-%E4%B8%AD%E6%9F%A5%E7%9C%8B"><span class="nav-number">19.</span> <span class="nav-text">在 tcpdump 中抓包，在 Wireshark 中查看</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E6%95%B0%E6%8D%AE%E5%8C%85%E6%95%B0%E9%87%8F%E6%8E%92%E5%90%8D%E4%B8%BB%E6%9C%BA"><span class="nav-number">20.</span> <span class="nav-text">按数据包数量排名主机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85-%E6%89%80%E6%9C%89%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81"><span class="nav-number">21.</span> <span class="nav-text">抓包 所有明文密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DHCP-%E7%A4%BA%E4%BE%8B"><span class="nav-number">22.</span> <span class="nav-text">DHCP 示例</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ray"
+      src="/images/logo.webp">
+  <p class="site-author-name" itemprop="name">Ray</p>
+  <div class="site-description" itemprop="description">Dev Life</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+      
+        <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+        <div class="widget-wrap">
+            <h3 class="widget-title">标签云</h3>
+            <div id="myCanvasContainer" class="widget tagcloud">
+                <canvas width="250" height="250" id="resCanvas" style="width=100%">
+                    <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/" rel="tag">Django</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/" rel="tag">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">1</span></li></ul>
+                </canvas>
+            </div>
+        </div>
+        
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ray</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">6k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">22 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("01/01/2025 10:00:00"); //修改为你的网站开始运行的时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#utterances-container'), () => {
+    // if (typeof parcelRequire === 'function') { return; }
+    var js = document.createElement('script');
+    js.type = 'text/javascript';
+    js.src = 'https://utteranc.es/client.js';
+    js.async = true;
+    js.crossorigin = 'anonymous';
+    js.setAttribute('repo', 'Mrhongping/mrhongping.github.io');
+    js.setAttribute('issue-term', 'pathname');
+    js.setAttribute('theme', 'github-light');
+    document.getElementById('utterances-container').appendChild(js);
+});
+</script>
+  <!-- 页面点击小红心 --> <script type="text/javascript" src="/js/clicklove.js"></script>
+</body>
+</html>
