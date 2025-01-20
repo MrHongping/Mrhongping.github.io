@@ -6,7 +6,7 @@
   <link href="https://idevv.us.kg/atom.xml" rel="self"/>
   
   <link href="https://idevv.us.kg/"/>
-  <updated>2025-01-10T01:57:48.440Z</updated>
+  <updated>2025-01-20T03:04:47.261Z</updated>
   <id>https://idevv.us.kg/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>tailscaled启动报错</title>
+    <link href="https://idevv.us.kg/2025/01/20/tailscaled%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/"/>
+    <id>https://idevv.us.kg/2025/01/20/tailscaled%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/</id>
+    <published>2025-01-20T02:25:21.000Z</published>
+    <updated>2025-01-20T03:04:47.261Z</updated>
+    
+    <content type="html"><![CDATA[<p><img data-src="https://images.idevv.us.kg/app/hide.php?key=Z1BXaXBWcEtRT1YxajRXcTB5ZGkxRVNraXAvUHhITmUwdGM9" alt="hide"></p><h1 id="tailscale启动报错-getLocalBackend-error-createEngine-tstun-New-tailscale0-CreateTUN-tailscale0-failed-dev-net-tun-does-not-exist解决"><a href="#tailscale启动报错-getLocalBackend-error-createEngine-tstun-New-tailscale0-CreateTUN-tailscale0-failed-dev-net-tun-does-not-exist解决" class="headerlink" title="tailscale启动报错:getLocalBackend error: createEngine: tstun.New(&quot;tailscale0&quot;): CreateTUN(&quot;tailscale0&quot;) failed; /dev/net/tun does not exist解决"></a>tailscale启动报错:<code>getLocalBackend error: createEngine: tstun.New(&quot;tailscale0&quot;): CreateTUN(&quot;tailscale0&quot;) failed; /dev/net/tun does not exist</code>解决</h1><span id="more"></span><h2 id="在新的服务器上按照官方文档安装好tailscale之后，使用systemctl-start-tailscaled启动后发现报错，原因是无法找到系统的tun设备。"><a href="#在新的服务器上按照官方文档安装好tailscale之后，使用systemctl-start-tailscaled启动后发现报错，原因是无法找到系统的tun设备。" class="headerlink" title="在新的服务器上按照官方文档安装好tailscale之后，使用systemctl start tailscaled启动后发现报错，原因是无法找到系统的tun设备。"></a>在新的服务器上按照官方文档安装好tailscale之后，使用<code>systemctl start tailscaled</code>启动后发现报错，原因是无法找到系统的tun设备。</h2><blockquote><p>经过查询相关资料得知需要使用tailscale的用户网络空间来解决,<br>您可以通过使用 Tailscale 的用户空间网络模式来解决此问题，该模式专门为 &#x2F;dev&#x2F;net&#x2F;tun 不可用的环境设计。此功能在 Tailscale v1.12 及更高版本中可用</p></blockquote><h2 id="具体解决办法如下："><a href="#具体解决办法如下：" class="headerlink" title="具体解决办法如下："></a>具体解决办法如下：</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">vim /lib/systemd/system/tailscaled.service</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在tailscaled后面增加--tun=userspace-networking</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=Tailscale node agent</span><br><span class="line">Documentation=https://tailscale.com/kb/</span><br><span class="line">Wants=network-pre.target</span><br><span class="line">After=network-pre.target NetworkManager.service systemd-resolved.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">EnvironmentFile=/etc/default/tailscaled</span><br><span class="line">ExecStart=/usr/sbin/tailscaled --tun=userspace-networking --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=$&#123;PORT&#125; $FLAGS</span><br><span class="line">ExecStopPost=/usr/sbin/tailscaled --cleanup</span><br><span class="line"></span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">RuntimeDirectory=tailscale</span><br><span class="line">RuntimeDirectoryMode=0755</span><br><span class="line">StateDirectory=tailscale</span><br><span class="line">StateDirectoryMode=0700</span><br><span class="line">CacheDirectory=tailscale</span><br><span class="line">CacheDirectoryMode=0750</span><br><span class="line">Type=notify</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure><p><img data-src="https://images.idevv.us.kg/app/hide.php?key=eVpYVnJLZGRKbzc0cVV2MEo2Zk1udkt3ckdtcjFLL1J5ZFk9" alt="hide"></p><h2 id="启动systemctl-daemon-reload-systemctl-restart-tailscaled"><a href="#启动systemctl-daemon-reload-systemctl-restart-tailscaled" class="headerlink" title="启动systemctl daemon-reload; systemctl restart tailscaled"></a>启动<code>systemctl daemon-reload; systemctl restart tailscaled</code></h2><p><img data-src="https://images.idevv.us.kg/app/hide.php?key=UHIzZmNqd0twZGhzSmdLQmwrTFZRcWUzU0RIRHRUSVg4dFk9" alt="hide"></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;img data-src=&quot;https://images.idevv.us.kg/app/hide.php?key=Z1BXaXBWcEtRT1YxajRXcTB5ZGkxRVNraXAvUHhITmUwdGM9&quot; alt=&quot;hide&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;tailscale启动报错-getLocalBackend-error-createEngine-tstun-New-tailscale0-CreateTUN-tailscale0-failed-dev-net-tun-does-not-exist解决&quot;&gt;&lt;a href=&quot;#tailscale启动报错-getLocalBackend-error-createEngine-tstun-New-tailscale0-CreateTUN-tailscale0-failed-dev-net-tun-does-not-exist解决&quot; class=&quot;headerlink&quot; title=&quot;tailscale启动报错:getLocalBackend error: createEngine: tstun.New(&amp;quot;tailscale0&amp;quot;): CreateTUN(&amp;quot;tailscale0&amp;quot;) failed; /dev/net/tun does not exist解决&quot;&gt;&lt;/a&gt;tailscale启动报错:&lt;code&gt;getLocalBackend error: createEngine: tstun.New(&amp;quot;tailscale0&amp;quot;): CreateTUN(&amp;quot;tailscale0&amp;quot;) failed; /dev/net/tun does not exist&lt;/code&gt;解决&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="运维" scheme="https://idevv.us.kg/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+    
+    <category term="linux" scheme="https://idevv.us.kg/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>tcpdump抓包工具常用命令</title>

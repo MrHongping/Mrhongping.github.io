@@ -20,23 +20,24 @@
     var CONFIG = {"hostname":"idevv.us.kg","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="在配置utteranc评论系统时，按照大多数网上搜索到的办法：1、GitHub install utterances；2、在next _config.yml中配置相关配置。在重启hexo后发现并为生效，原因是因为当前版本的next并未内置utterances的相关配置模版。">
+  <meta name="description" content="tailscale启动报错:getLocalBackend error: createEngine: tstun.New(&quot;tailscale0&quot;): CreateTUN(&quot;tailscale0&quot;) failed; &#x2F;dev&#x2F;net&#x2F;tun does not exist解决">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo增加utterances评论系统">
-<meta property="og:url" content="https://idevv.us.kg/2025/01/09/hexo%E5%A2%9E%E5%8A%A0utteranc%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:title" content="tailscaled启动报错">
+<meta property="og:url" content="https://idevv.us.kg/2025/01/20/tailscaled%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/index.html">
 <meta property="og:site_name" content="iDevv">
-<meta property="og:description" content="在配置utteranc评论系统时，按照大多数网上搜索到的办法：1、GitHub install utterances；2、在next _config.yml中配置相关配置。在重启hexo后发现并为生效，原因是因为当前版本的next并未内置utterances的相关配置模版。">
+<meta property="og:description" content="tailscale启动报错:getLocalBackend error: createEngine: tstun.New(&quot;tailscale0&quot;): CreateTUN(&quot;tailscale0&quot;) failed; &#x2F;dev&#x2F;net&#x2F;tun does not exist解决">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://images.idevv.us.kg/app/hide.php?key=UEY3L3hUK0lmbDRuTWVabW5jWTJ3M1BNSDNnYUZ2Z1J6Unc9">
-<meta property="og:image" content="https://images.idevv.us.kg/app/hide.php?key=TnNSZGtNb0sybFVkUUNrL1lwbzZoNUg2RHhKL2VpOFFBeTA9">
-<meta property="article:published_time" content="2025-01-09T08:44:29.000Z">
-<meta property="article:modified_time" content="2025-01-09T09:08:29.613Z">
+<meta property="og:image" content="https://images.idevv.us.kg/app/hide.php?key=Z1BXaXBWcEtRT1YxajRXcTB5ZGkxRVNraXAvUHhITmUwdGM9">
+<meta property="og:image" content="https://images.idevv.us.kg/app/hide.php?key=eVpYVnJLZGRKbzc0cVV2MEo2Zk1udkt3ckdtcjFLL1J5ZFk9">
+<meta property="og:image" content="https://images.idevv.us.kg/app/hide.php?key=UHIzZmNqd0twZGhzSmdLQmwrTFZRcWUzU0RIRHRUSVg4dFk9">
+<meta property="article:published_time" content="2025-01-20T02:25:21.000Z">
+<meta property="article:modified_time" content="2025-01-20T03:04:47.261Z">
 <meta property="article:author" content="Ray">
-<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://images.idevv.us.kg/app/hide.php?key=UEY3L3hUK0lmbDRuTWVabW5jWTJ3M1BNSDNnYUZ2Z1J6Unc9">
+<meta name="twitter:image" content="https://images.idevv.us.kg/app/hide.php?key=Z1BXaXBWcEtRT1YxajRXcTB5ZGkxRVNraXAvUHhITmUwdGM9">
 
-<link rel="canonical" href="https://idevv.us.kg/2025/01/09/hexo%E5%A2%9E%E5%8A%A0utteranc%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">
+<link rel="canonical" href="https://idevv.us.kg/2025/01/20/tailscaled%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/">
 
 
 <script id="page-configurations">
@@ -49,7 +50,7 @@
   };
 </script>
 
-  <title>hexo增加utterances评论系统 | iDevv</title>
+  <title>tailscaled启动报错 | iDevv</title>
   
 
 
@@ -168,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://idevv.us.kg/2025/01/09/hexo%E5%A2%9E%E5%8A%A0utteranc%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">
+    <link itemprop="mainEntityOfPage" href="https://idevv.us.kg/2025/01/20/tailscaled%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/logo.webp">
@@ -181,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          hexo增加utterances评论系统
+          tailscaled启动报错
         </h1>
 
         <div class="post-meta">
@@ -192,7 +193,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2025-01-09 16:44:29 / 修改时间：17:08:29" itemprop="dateCreated datePublished" datetime="2025-01-09T16:44:29+08:00">2025-01-09</time>
+              <time title="创建时间：2025-01-20 10:25:21 / 修改时间：11:04:47" itemprop="dateCreated datePublished" datetime="2025-01-20T10:25:21+08:00">2025-01-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -200,7 +201,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
+                  <a href="/categories/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
                 </span>
             </span>
 
@@ -217,7 +218,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>292</span>
+              <span>247</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -236,33 +237,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img data-src="https://images.idevv.us.kg/app/hide.php?key=UEY3L3hUK0lmbDRuTWVabW5jWTJ3M1BNSDNnYUZ2Z1J6Unc9"></p>
-<h2 id="在配置utteranc评论系统时，按照大多数网上搜索到的办法："><a href="#在配置utteranc评论系统时，按照大多数网上搜索到的办法：" class="headerlink" title="在配置utteranc评论系统时，按照大多数网上搜索到的办法："></a>在配置utteranc评论系统时，按照大多数网上搜索到的办法：</h2><p>1、GitHub install utterances；<br>2、在next _config.yml中配置相关配置。<br>在重启hexo后发现并为生效，原因是因为当前版本的next并未内置utterances的相关配置模版。</p>
-<span id="more"></span>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.mylab.cc/2020/05/20/Hexo-Next%25E4%25B8%25BB%25E9%25A2%2598%25E6%25B7%25BB%25E5%258A%25A0Utterances%25E8%25AF%2584%25E8%25AE%25BA%25E7%25B3%25BB%25E7%25BB%259F/">参考原文地址</a></p>
+        <p><img data-src="https://images.idevv.us.kg/app/hide.php?key=Z1BXaXBWcEtRT1YxajRXcTB5ZGkxRVNraXAvUHhITmUwdGM9" alt="hide"></p>
+<h1 id="tailscale启动报错-getLocalBackend-error-createEngine-tstun-New-tailscale0-CreateTUN-tailscale0-failed-dev-net-tun-does-not-exist解决"><a href="#tailscale启动报错-getLocalBackend-error-createEngine-tstun-New-tailscale0-CreateTUN-tailscale0-failed-dev-net-tun-does-not-exist解决" class="headerlink" title="tailscale启动报错:getLocalBackend error: createEngine: tstun.New(&quot;tailscale0&quot;): CreateTUN(&quot;tailscale0&quot;) failed; /dev/net/tun does not exist解决"></a>tailscale启动报错:<code>getLocalBackend error: createEngine: tstun.New(&quot;tailscale0&quot;): CreateTUN(&quot;tailscale0&quot;) failed; /dev/net/tun does not exist</code>解决</h1><span id="more"></span>
+<h2 id="在新的服务器上按照官方文档安装好tailscale之后，使用systemctl-start-tailscaled启动后发现报错，原因是无法找到系统的tun设备。"><a href="#在新的服务器上按照官方文档安装好tailscale之后，使用systemctl-start-tailscaled启动后发现报错，原因是无法找到系统的tun设备。" class="headerlink" title="在新的服务器上按照官方文档安装好tailscale之后，使用systemctl start tailscaled启动后发现报错，原因是无法找到系统的tun设备。"></a>在新的服务器上按照官方文档安装好tailscale之后，使用<code>systemctl start tailscaled</code>启动后发现报错，原因是无法找到系统的tun设备。</h2><blockquote>
+<p>经过查询相关资料得知需要使用tailscale的用户网络空间来解决,<br>您可以通过使用 Tailscale 的用户空间网络模式来解决此问题，该模式专门为 &#x2F;dev&#x2F;net&#x2F;tun 不可用的环境设计。此功能在 Tailscale v1.12 及更高版本中可用</p>
 </blockquote>
-<h2 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h2><blockquote>
-<p>在GitHub安装好utterances插件之后再根据以下步骤操作</p>
-</blockquote>
-<p>创建utterances.swig</p>
-<ul>
-<li>在layout&#x2F;_third-party&#x2F;comments里创建utterances.swig，内容如下</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;%- <span class="keyword">if</span> page.<span class="property">comments</span> %&#125;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="title class_">NexT</span>.<span class="property">utils</span>.<span class="title function_">loadComments</span>(<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#utterances-container&#x27;</span>), <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// if (typeof parcelRequire === &#x27;function&#x27;) &#123; return; &#125;</span></span><br><span class="line">    <span class="keyword">var</span> js = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">    js.<span class="property">type</span> = <span class="string">&#x27;text/javascript&#x27;</span>;</span><br><span class="line">    js.<span class="property">src</span> = <span class="string">&#x27;https://utteranc.es/client.js&#x27;</span>;</span><br><span class="line">    js.<span class="property">async</span> = <span class="literal">true</span>;</span><br><span class="line">    js.<span class="property">crossorigin</span> = <span class="string">&#x27;anonymous&#x27;</span>;</span><br><span class="line">    js.<span class="title function_">setAttribute</span>(<span class="string">&#x27;repo&#x27;</span>, <span class="string">&#x27;&#123;&#123; theme.utterances.repo &#125;&#125;&#x27;</span>);</span><br><span class="line">    js.<span class="title function_">setAttribute</span>(<span class="string">&#x27;issue-term&#x27;</span>, <span class="string">&#x27;&#123;&#123; theme.utterances.issue_term &#125;&#125;&#x27;</span>);</span><br><span class="line">    js.<span class="title function_">setAttribute</span>(<span class="string">&#x27;theme&#x27;</span>, <span class="string">&#x27;&#123;&#123; theme.utterances.theme &#125;&#125;&#x27;</span>);</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;utterances-container&#x27;</span>).<span class="title function_">appendChild</span>(js);</span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&#123;%- endif %&#125;</span><br></pre></td></tr></table></figure>
-<p>创建utterances.js</p>
-<ul>
-<li>在scripts&#x2F;filters&#x2F;comment下创建utterances.js，内容如下</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* global hexo */</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add comment</span></span><br><span class="line">hexo.<span class="property">extend</span>.<span class="property">filter</span>.<span class="title function_">register</span>(<span class="string">&#x27;theme_inject&#x27;</span>, <span class="function"><span class="params">injects</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> theme = hexo.<span class="property">theme</span>.<span class="property">config</span>;</span><br><span class="line">  <span class="keyword">if</span> (!theme.<span class="property">utterances</span>.<span class="property">enable</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  injects.<span class="property">comment</span>.<span class="title function_">raw</span>(<span class="string">&#x27;utterances&#x27;</span>, <span class="string">&#x27;&lt;div class=&quot;comments&quot; id=&quot;utterances-container&quot;&gt;&lt;/div&gt;&#x27;</span>, &#123;&#125;, &#123;<span class="attr">cache</span>: <span class="literal">true</span>&#125;);</span><br><span class="line"></span><br><span class="line">  injects.<span class="property">bodyEnd</span>.<span class="title function_">file</span>(<span class="string">&#x27;utterances&#x27;</span>, path.<span class="title function_">join</span>(hexo.<span class="property">theme_dir</span>, <span class="string">&#x27;layout/_third-party/comments/utterances.swig&#x27;</span>));</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="修改主题配置文件"><a href="#修改主题配置文件" class="headerlink" title="修改主题配置文件"></a>修改主题配置文件</h2><ul>
-<li>在主题配置文件中添加</li>
-</ul>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">utterances:</span> </span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">&quot;你的repo地址&quot;</span></span><br><span class="line">  <span class="attr">issue_term:</span> <span class="string">&quot;pathname&quot;</span></span><br><span class="line">  <span class="attr">theme:</span> <span class="string">&quot;github-light&quot;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>在主配置_config.yml文件中的url中配置好博客的地址，比如：<code>url: https://yourdomain.com</code></li>
-</ul>
-<h2 id="最后重启博客系统就能够看到评论模块了"><a href="#最后重启博客系统就能够看到评论模块了" class="headerlink" title="最后重启博客系统就能够看到评论模块了"></a>最后重启博客系统就能够看到评论模块了</h2><p><img data-src="https://images.idevv.us.kg/app/hide.php?key=TnNSZGtNb0sybFVkUUNrL1lwbzZoNUg2RHhKL2VpOFFBeTA9"></p>
+<h2 id="具体解决办法如下："><a href="#具体解决办法如下：" class="headerlink" title="具体解决办法如下："></a>具体解决办法如下：</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">vim /lib/systemd/system/tailscaled.service</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在tailscaled后面增加--tun=userspace-networking</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=Tailscale node agent</span><br><span class="line">Documentation=https://tailscale.com/kb/</span><br><span class="line">Wants=network-pre.target</span><br><span class="line">After=network-pre.target NetworkManager.service systemd-resolved.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">EnvironmentFile=/etc/default/tailscaled</span><br><span class="line">ExecStart=/usr/sbin/tailscaled --tun=userspace-networking --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=$&#123;PORT&#125; $FLAGS</span><br><span class="line">ExecStopPost=/usr/sbin/tailscaled --cleanup</span><br><span class="line"></span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">RuntimeDirectory=tailscale</span><br><span class="line">RuntimeDirectoryMode=0755</span><br><span class="line">StateDirectory=tailscale</span><br><span class="line">StateDirectoryMode=0700</span><br><span class="line">CacheDirectory=tailscale</span><br><span class="line">CacheDirectoryMode=0750</span><br><span class="line">Type=notify</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://images.idevv.us.kg/app/hide.php?key=eVpYVnJLZGRKbzc0cVV2MEo2Zk1udkt3ckdtcjFLL1J5ZFk9" alt="hide"></p>
+<h2 id="启动systemctl-daemon-reload-systemctl-restart-tailscaled"><a href="#启动systemctl-daemon-reload-systemctl-restart-tailscaled" class="headerlink" title="启动systemctl daemon-reload; systemctl restart tailscaled"></a>启动<code>systemctl daemon-reload; systemctl restart tailscaled</code></h2><p><img data-src="https://images.idevv.us.kg/app/hide.php?key=UHIzZmNqd0twZGhzSmdLQmwrTFZRcWUzU0RIRHRUSVg4dFk9" alt="hide"></p>
 
     </div>
 
@@ -301,7 +284,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/hexo/" rel="tag"><i class="fa fa-tag"></i> hexo</a>
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
           </div>
 
         
@@ -310,13 +293,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2025/01/09/nginx%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/" rel="prev" title="nginx常用配置解析">
-      <i class="fa fa-chevron-left"></i> nginx常用配置解析
+    <a href="/2025/01/10/tcpdump%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="tcpdump抓包工具常用命令">
+      <i class="fa fa-chevron-left"></i> tcpdump抓包工具常用命令
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2025/01/10/tcpdump%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="next" title="tcpdump抓包工具常用命令">
-      tcpdump抓包工具常用命令 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -376,7 +356,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E9%85%8D%E7%BD%AEutteranc%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E6%97%B6%EF%BC%8C%E6%8C%89%E7%85%A7%E5%A4%A7%E5%A4%9A%E6%95%B0%E7%BD%91%E4%B8%8A%E6%90%9C%E7%B4%A2%E5%88%B0%E7%9A%84%E5%8A%9E%E6%B3%95%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">在配置utteranc评论系统时，按照大多数网上搜索到的办法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">解决办法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">修改主题配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%E9%87%8D%E5%90%AF%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F%E5%B0%B1%E8%83%BD%E5%A4%9F%E7%9C%8B%E5%88%B0%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97%E4%BA%86"><span class="nav-number">4.</span> <span class="nav-text">最后重启博客系统就能够看到评论模块了</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#tailscale%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99-getLocalBackend-error-createEngine-tstun-New-tailscale0-CreateTUN-tailscale0-failed-dev-net-tun-does-not-exist%E8%A7%A3%E5%86%B3"><span class="nav-number">1.</span> <span class="nav-text">tailscale启动报错:getLocalBackend error: createEngine: tstun.New(&quot;tailscale0&quot;): CreateTUN(&quot;tailscale0&quot;) failed; &#x2F;dev&#x2F;net&#x2F;tun does not exist解决</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E6%96%B0%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%8C%89%E7%85%A7%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E5%AE%89%E8%A3%85%E5%A5%BDtailscale%E4%B9%8B%E5%90%8E%EF%BC%8C%E4%BD%BF%E7%94%A8systemctl-start-tailscaled%E5%90%AF%E5%8A%A8%E5%90%8E%E5%8F%91%E7%8E%B0%E6%8A%A5%E9%94%99%EF%BC%8C%E5%8E%9F%E5%9B%A0%E6%98%AF%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%E7%B3%BB%E7%BB%9F%E7%9A%84tun%E8%AE%BE%E5%A4%87%E3%80%82"><span class="nav-number">1.1.</span> <span class="nav-text">在新的服务器上按照官方文档安装好tailscale之后，使用systemctl start tailscaled启动后发现报错，原因是无法找到系统的tun设备。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">具体解决办法如下：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8systemctl-daemon-reload-systemctl-restart-tailscaled"><span class="nav-number">1.3.</span> <span class="nav-text">启动systemctl daemon-reload; systemctl restart tailscaled</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
